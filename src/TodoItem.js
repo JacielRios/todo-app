@@ -1,8 +1,8 @@
-function TodoItem() {
+function TodoItem({text, completed}) {
   return (
     <li>
       <span>✅</span>
-      <p>Play baskeball</p>
+      <p>{text}</p>
       <span>❌</span>
     </li>
   );
