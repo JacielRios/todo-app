@@ -8,7 +8,7 @@ function CreateTodoButton() {
             console.log('le diste click');
             console.log(e.target);            
         }}
-        >➕</button>
+        >+</button>
     );
 }
 

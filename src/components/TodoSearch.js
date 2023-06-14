@@ -1,13 +1,15 @@
+import React from 'react';
+
 import '../css/TodoSearch.css';
 
-function TodoSearch() {
+function TodoSearch({searchValue, setSearchValue}) {    
     return(
         <input 
         className='filter-todos' 
         placeholder="Play basketball"
+        value={searchValue}
         onChange={(e) => {
-            console.log('Hubo un cambio en el input');
-            console.log(e.target.value);
+            setSearchValue(e.target.value);
         }}
         />
     );
