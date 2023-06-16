@@ -1,10 +1,11 @@
 import React from "react";
-import { useLocalStorage } from './hooks/useLocalStorage'
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import { TodoCounter } from "./components/TodoCounter";
 import { TodoSearch } from "./components/TodoSearch";
 import { TodoList } from "./components/TodoList";
 import { TodoItem } from "./components/TodoItem";
 import { CreateTodoButton } from "./components/CreateTodoButton";
+import { TodoItemSkeleton } from "./components/TodoItemSkeleton";
 
 // const defaultTodos = [
 //   { text: "jugar basket", completed: true },
@@ -13,8 +14,13 @@ import { CreateTodoButton } from "./components/CreateTodoButton";
 // ];
 
 function App() {
-  const [todos, saveTodos] = useLocalStorage('TODOS_V1', []);
-  const [searchValue, setSearchValue] = React.useState('');
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading,
+    error,
+  } = useLocalStorage("TODOS_V1", []);
+  const [searchValue, setSearchValue] = React.useState("");
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const totalTodos = todos.length;
@@ -27,37 +33,38 @@ function App() {
 
   const completeTodo = (text) => {
     const newTodos = [...todos];
-    const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
-    );
+    const todoIndex = newTodos.findIndex((todo) => todo.text == text);
     newTodos[todoIndex].completed = !newTodos[todoIndex].completed;
-    saveTodos(newTodos)
+    saveTodos(newTodos);
   };
 
   const deleteTodo = (text) => {
     const newTodos = [...todos];
-    const todoIndex = newTodos.findIndex(
-      (todo) => todo.text == text
-    );
+    const todoIndex = newTodos.findIndex((todo) => todo.text == text);
     newTodos.splice(todoIndex, 1);
-    saveTodos(newTodos)
+    saveTodos(newTodos);
   };
   return (
     <>
       <TodoCounter completed={completedTodos} total={totalTodos} />
-      <TodoSearch 
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-      />
+      <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
 
       <TodoList>
+        {loading && (
+          <>
+            <TodoItemSkeleton /> <TodoItemSkeleton /> <TodoItemSkeleton />{" "}
+          </>
+        )}
+        {error && <p>Huno un error!!</p>}
+        {!loading && searchedTodos.length === 0 && <p>Crea tu primer TODO</p>}
+
         {searchedTodos.map((item) => (
-          <TodoItem 
-          key={item.text} 
-          text={item.text} 
-          completed={item.completed} 
-          onComplete={() => completeTodo(item.text)}
-          onDelete={() => deleteTodo(item.text)}
+          <TodoItem
+            key={item.text}
+            text={item.text}
+            completed={item.completed}
+            onComplete={() => completeTodo(item.text)}
+            onDelete={() => deleteTodo(item.text)}
           />
         ))}
       </TodoList>
