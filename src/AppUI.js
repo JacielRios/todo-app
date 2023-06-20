@@ -6,6 +6,7 @@ import { TodoItem } from "./components/TodoItem";
 import { CreateTodoButton } from "./components/CreateTodoButton";
 import { TodoItemSkeleton } from "./components/TodoItemSkeleton";
 import { Modal } from "./components/Modal";
+import { TodoForm } from './components/TodoForm';
 import { TodoContext } from "./context/TodoContext";
 
 function AppUI() {
@@ -45,7 +46,7 @@ function AppUI() {
 
       <CreateTodoButton setOpenModal={setOpenModal} openModal={openModal}/>
 
-      {openModal && <Modal>Funcionalidad de agregar todos</Modal>}
+      {openModal && <Modal><TodoForm/></Modal>}
     </>
   );
 }
